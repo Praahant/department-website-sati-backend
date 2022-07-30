@@ -130,13 +130,11 @@ class BranchSubject(models.Model):
 
 class ClassRoom(models.Model):
     classroom_code = models.CharField(max_length=50, unique=True, primary_key=True)
-    class_name = models.CharField(max_length=50, blank=True, null=True)
-    department = models.ForeignKey('Department', on_delete=models.CASCADE)
-    branch = models.ForeignKey('Branch', models.CASCADE)
     faculty_id = models.ForeignKey('faculty.ContactDetails', on_delete=models.CASCADE)
-    faculty_email = models.EmailField(null=False)
-    course = models.ForeignKey('Course', on_delete=models.CASCADE)
     subject = models.ForeignKey('Subject', on_delete=models.CASCADE) 
+    class_name = models.CharField(max_length=50, blank=True, null=True)
+    branch = models.ForeignKey('Branch', models.CASCADE)
+    faculty_email = models.EmailField(null=False)
     date_created = models.DateField(auto_now_add=True, verbose_name=u"Date added") 
     
     def __str__(self):
