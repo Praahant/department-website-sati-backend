@@ -1,5 +1,6 @@
 from asyncio.windows_events import NULL
 from datetime import datetime
+from venv import create
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from distutils.command.upload import upload
 from email.mime import image
@@ -32,14 +33,14 @@ class CustomAccountManager(BaseUserManager):
             raise ValueError(('You must provide an email address'))
 
         email = self.normalize_email(email)
-        user = self.model(email=email, first_name=first_name, last_name=last_name,**other_fields)
+        user = self.model(email=email, first_name=first_name, last_name=last_name, **other_fields)
 
         user.set_password(password)
         user.save()
         return user
     
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(max_length=255, unique=True)
+    email = models.EmailField(('email address'), unique=True, primary_key=True, db_index=True)
     first_name = models.CharField(max_length=30, unique=False, null=True, blank=True)
     username = models.CharField(max_length=50, unique=False, null=True, blank=True)
     last_name = models.CharField(max_length=30, null=True, blank=True)
@@ -55,6 +56,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']
+
+    def __str__(self):
+        return self.email
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -135,7 +139,8 @@ class ClassRoom(models.Model):
     class_name = models.CharField(max_length=50, blank=True, null=True)
     branch = models.ForeignKey('Branch', models.CASCADE)
     faculty_email = models.EmailField(null=False)
-    date_created = models.DateField(auto_now_add=True, verbose_name=u"Date added") 
+    section = models.CharField(max_length=500 , null=True, blank=True)
+    created_at = models.DateField(auto_now_add=True, verbose_name=u"Date added") 
     
     def __str__(self):
         return self.classroom_code

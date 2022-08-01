@@ -4,13 +4,13 @@ from django.utils import timezone
 
 
 class ContactDetails(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    faculty_id = models.CharField(max_length = 100, primary_key = True)
-    adhar_no = models.CharField(max_length = 100, unique = True)
-    faculty_name = models.CharField(max_length = 100)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key = True)
+    faculty_id = models.CharField(max_length = 100, unique=True, blank = True, null = True)
+    adhar_no = models.CharField(max_length = 100, unique = True, blank = True, null = True)
+    faculty_name = models.CharField(max_length = 100, blank = True, null = True)
     designation = models.CharField(max_length = 100, blank = True, null = True)
     date_of_joining = models.DateField(default=timezone.now)
-    mobile_no = models.CharField(max_length = 20)
+    mobile_no = models.CharField(max_length = 20, blank = True, null = True)
     email = models.EmailField()
     email2 = models.EmailField(null = True, blank = True)
     faculty_image = models.ImageField(upload_to = 'faculty/images', default = '', blank = True, null = True)

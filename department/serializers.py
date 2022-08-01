@@ -68,13 +68,12 @@ class ClassRoomSerializer(serializers.ModelSerializer):
             # 'url',
             # 'edit_url',
             'classroom_code',
-            'class_name',
-            'department',
-            'branch',
             'faculty_id',
-            'faculty_email',
-            'course',          
-            'subject'          
+            'subject',        
+            'class_name',
+            'branch',
+            'section',
+            'faculty_email',      
         ]
 
 class SubjectiveQuestionsSerializer(serializers.ModelSerializer):
@@ -181,11 +180,16 @@ class MCQ_QuestionsQuizSerializer(serializers.ModelSerializer):
 from .models import CustomUser
 class RegisterUserSerializer(serializers.ModelSerializer):
     
+    email = serializers.EmailField(required=True)
+    first_name = serializers.CharField(required=True)
+    last_name = serializers.CharField(required=True)
+    password = serializers.CharField(min_length=6, write_only=True)
+
     class Meta:
         model = CustomUser
-        fields = ('email', 'first_name', 'last_name', 'role')
-        extra_kwargs = {'password': {'write_only': True}}
-
+        fields = ('email', 'first_name', 'last_name', 'role', 'password')
+        extra_kwargs = {'password': {'write_only': True}}   
+        
 
     def create(self, validate_data):
         password = validate_data.pop('password', None)

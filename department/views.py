@@ -4,6 +4,7 @@ from department.models import *
 from department.serializers import *
 from department_website_sati.authentication import TokenAuthentication
 from department_website_sati.mixins import StaffEditorPermissionMixin
+from rest_framework.permissions import AllowAny
 
 # List Course view
 class CourseListCreateAPIView(
@@ -226,11 +227,20 @@ subject_detail_view = SubjectDetailAPIView.as_view()
 
 # List ClassRoom view
 class ClassRoomListCreateAPIView(
-    StaffEditorPermissionMixin,
+    AllowAny,
     generics.ListCreateAPIView
     ):
-    queryset = ClassRoom.objects.all()
     serializer_class = ClassRoomSerializer
+    queryset = ClassRoom.objects.all()
+
+    def get_queryset(self):
+        queryset = ClassRoom.objects.all()
+        useremail =  self.kwargs['useremail']
+        print(useremail)
+        if useremail is not None:
+            queryset = queryset.filter(faculty_email=useremail)
+
+        return queryset
 
     def perform_create(self, serializer):
         print(serializer)
@@ -610,7 +620,6 @@ subjective_questions_quiz_detail_view = SubjectiveQuestionsQuizDetailAPIView.as_
 from .serializers import RegisterUserSerializer
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import AllowAny
 
 class CustomUserCreate(APIView):
     permissions_classes = [AllowAny]

@@ -32,6 +32,7 @@ urlpatterns = [
     path('classroom-get/<str:classRoom_id>', department_views.classRoom_detail_view, name='classroom-detail'),
     path('classroom-update/<str:classRoom_id>', department_views.classRoom_update_view, name='classroom-update'),
     path('classroom-delete/<str:classRoom_id>', department_views.classRoom_delete_view, name='classroom-delete'),
+    path('classroom/<str:useremail>', department_views.classRoom_list_create_view, name='classroom-list'),
     path('classroom', department_views.classRoom_list_create_view, name='classroom-list'),
 
     #assingment api

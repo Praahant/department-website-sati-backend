@@ -50,7 +50,7 @@ class ContactDetailsDeleteAPIView(
     ):
     queryset = ContactDetails.objects.all()
     serializer_class = ContactDetailsSerializer
-    lookup_field = 'faculty_id'
+    lookup_field = 'user'
 
     def perform_destroy(self, instance):
         super().perform_destroy(instance)
@@ -78,6 +78,6 @@ class ContactDetailsDetailAPIView(
     ):
     queryset = ContactDetails.objects.all()
     serializer_class = ContactDetailsSerializer    
-    lookup_field = 'faculty_id'
+    lookup_field = 'user'
 
 faculty_contact_details_detail_view = ContactDetailsDetailAPIView.as_view()

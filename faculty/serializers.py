@@ -6,6 +6,7 @@ class ContactDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContactDetails
         fields = [
+            'user',
             'faculty_id',
             'adhar_no',
             'faculty_name',
