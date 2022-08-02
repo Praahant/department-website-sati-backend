@@ -72,6 +72,7 @@ urlpatterns = [
     path('subjective-questions-quiz-delete/<str:primary_key>', department_views.subjective_questions_quiz_delete_view, name='subjective-questions-quiz-delete'),
     path('subjective-questions-quiz', department_views.subjective_questions_quiz_list_create_view, name='subjective-questions-quiz-list'),
 
-    path('register/', department_views.CustomUserCreate.as_view(), name="create_user")   
-
+    path('register/', department_views.CustomUserCreate.as_view(), name='create_user'),   
+    path('logout/blacklist', department_views.BlacklistTokenView.as_view(), name='blacklist')
+    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
